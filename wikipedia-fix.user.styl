@@ -24,7 +24,7 @@
 	// =========== //
 	// WIDTH MODES //
 	// =========== //
-	if (widthMode >= 1)
+	if (widthMode > 0)
 	{
 		// Remove wideness toggle button
 		button.mw-ui-button.mw-ui-icon-element:not(.mw-ui-icon-with-label-desktop)
@@ -38,17 +38,14 @@
 		{
 			max-width: none !important;
 		}
-	}
 
-	if (widthMode == 2)
-	{
 		// Make whole page full-width
 		.mw-page-container
 		{
-			max-width: none;
+			max-width: none if (widthMode == 2);
 		}
 	}
-	
+
 	// ============ //
 	// COLOUR FIXES //
 	// ============ //
