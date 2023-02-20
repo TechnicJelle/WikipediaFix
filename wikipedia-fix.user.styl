@@ -1,0 +1,125 @@
+/* ==UserStyle==
+@name           Wikipedia Fix
+@namespace      github.com/TechnicJelle
+@version        1.0.0
+@description    A userstyle that allows you to customise the new Wikipedia look to be a bit more like the old one
+@author         TechnicJelle <technicjelleplay@gmail.com> (https://technicjelle.com)
+@homepageURL	https://github.com/TechnicJelle/WikipediaFix
+@supportURL		https://github.com/TechnicJelle/WikipediaFix/issues
+@updateURL		https://raw.githubusercontent.com/TechnicJelle/WikipediaFix/main/wikipedia-fix.user.styl
+@license		GPL-3.0-or-later
+@preprocessor	stylus
+
+.var	<type>	<name>				<label>							<default value>
+@var	select	widthMode			"Width Mode"					["0:Default", "1:Fill Article", "2:Fill Window*"]
+@var	select	colourScheme		"Colour Scheme"					["0:Default", "1:Custom*"]
+@var	color	backgroundColour	"Background Colour"				#f6f6f6
+@var	color	articleColour		"Article Background Colour"		#ffffff
+@var	color	textColour			"Text Colour"					#202122
+@var	color	separatorColour		"Separator Colour"				#a7d7f9
+==/UserStyle== */
+
+@-moz-document domain("en.wikipedia.org")
+{
+	// =========== //
+	// WIDTH MODES //
+	// =========== //
+	if (widthMode >= 1)
+	{
+		// Remove wideness toggle button
+		button.mw-ui-button.mw-ui-icon-element:not(.mw-ui-icon-with-label-desktop)
+		{
+			display: none;
+		}
+		
+		 // Make article full-width
+		.vector-feature-page-tools-disabled .mw-content-container,
+		.vector-feature-page-tools-disabled .mw-table-of-contents-container
+		{
+			max-width: none !important;
+		}
+	}
+
+	if (widthMode == 2)
+	{
+		// Make whole page full-width
+		.mw-page-container
+		{
+			max-width: none;
+		}
+	}
+	
+	// ============ //
+	// COLOUR FIXES //
+	// ============ //
+	if (colourScheme > 0) {
+		// == Text Colour ==
+			// If not using Dark Reader
+			html:not([data-darkreader-mode]) .mw-page-container, //Article Text
+			html:not([data-darkreader-mode]) h1,
+			html:not([data-darkreader-mode]) h2,
+			html:not([data-darkreader-mode]) h3,
+			html:not([data-darkreader-mode]) h4,
+			html:not([data-darkreader-mode]) h5,
+			html:not([data-darkreader-mode]) h6,
+			html:not([data-darkreader-mode]) #toc-mw-content-text .vector-toc-link //"(Top)" link in Table of Contents
+			{
+				color: textColour;
+			}
+
+
+		// == Page Background Colour ==
+			// If not using Dark Reader
+			html:not([data-darkreader-mode]) body, //Page background
+			html:not([data-darkreader-mode]) .mw-page-container, //Area around the article
+			html:not([data-darkreader-mode]) #vector-main-menu, // Hamburger Menu
+			html:not([data-darkreader-mode]) #vector-toc // Table of Contents
+			{
+				background-color: backgroundColour;
+			}
+
+			// If using Dark Reader
+			body,
+			.mw-page-container,
+			#vector-main-menu,
+			#vector-toc
+			{
+				background-color: var(--darkreader-neutral-background);
+			}
+
+			// Remove shading effect on bottom of Table of Contents
+			.vector-toc-pinned #vector-toc-pinned-container .vector-toc::after {
+				display: none;
+			}
+
+
+		// == Line Separator ==
+			.mw-content-container {
+				border-left: 2px solid separatorColour; // Make vertical separator line between Article and Sidebar
+				max-width: 65em !important; // Make up for the #content margins
+			}
+	
+			// Give article a little bit of whitespace space on the sides
+			#content {
+				margin-left: 3em;
+				margin-right: 2em;
+			}
+
+			// Remove whitespace between vertical separator line and article
+			.vector-feature-page-tools-disabled .mw-page-container-inner {
+				column-gap: 0;
+			}
+
+
+		// == Article Background Colour ==
+			// If not using Dark Reader
+			html:not([data-darkreader-mode]) .mw-content-container {
+				background-color: articleColour;
+			}
+
+			// If using Dark Reader
+			.mw-content-container {
+				background-color: #181a1b;
+			}
+	}
+}
